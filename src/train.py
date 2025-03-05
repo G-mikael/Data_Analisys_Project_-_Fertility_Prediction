@@ -6,6 +6,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.preprocessing import LabelEncoder
+import joblib
 
 #Making sure the program will run at the same folder the file is
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -37,16 +38,19 @@ tree_model.fit(x_train, y_train)
 forest_model = RandomForestClassifier(n_estimators=100, class_weight="balanced", random_state=42)
 forest_model.fit(x_train, y_train)
 
-
 y_pred_tree = tree_model.predict(x_val)
 y_pred_forest = forest_model.predict(x_val)
 
 print("Desempenho da Árvore de Decisão:")
 print("Acurácia:", accuracy_score(y_val, y_pred_tree))
-print(classification_report(y_val, y_pred_tree))
+
+print(confusion_matrix(y_val, y_pred_tree))
+
+print(classification_report(y_val, y_pred_tree, digits=4))
 
 print("Desempenho da Random Forest:")
-print("Acurácia:", accuracy_score(y_val, y_pred_forest))
-print(classification_report(y_val, y_pred_forest))
 
-    
+print("Acurácia:", accuracy_score(y_val, y_pred_forest))
+
+print(confusion_matrix(y_val, y_pred_forest))
+print(classification_report(y_val, y_pred_forest, digits=4))
